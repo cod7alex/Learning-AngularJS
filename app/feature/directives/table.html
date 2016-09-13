@@ -1,0 +1,71 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>
+            <a href="#" ng-click="$ctrl.sortType = 'action'; $ctrl.sortReverse = !$ctrl.sortReverse">
+                Description
+                <span ng-show="$ctrl.sortType == 'action' && $ctrl.sortReverse == false;" class="glyphicon glyphicon-chevron-up"></span>
+                <span ng-show="$ctrl.sortType == 'action' && $ctrl.sortReverse == true;" class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+        </th>
+        <th>Checkbox</th>
+        <th>
+            <a href="#" ng-click="$ctrl.sortType = 'done'; $ctrl.sortReverse = !$ctrl.sortReverse">
+                Done
+                <span ng-show="$ctrl.sortType == 'done' && $ctrl.sortReverse == false;" class="glyphicon glyphicon-chevron-up"></span>
+                <span ng-show="$ctrl.sortType == 'done' && $ctrl.sortReverse == true;" class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+        </th>
+        <th>
+            <a href="#" ng-click="$ctrl.sortType = 'deadline'; $ctrl.sortReverse = !$ctrl.sortReverse">
+                Deadline
+                <span ng-show="$ctrl.sortType == 'deadline' && $ctrl.sortReverse == false;" class="glyphicon glyphicon-chevron-up"></span>
+                <span ng-show="$ctrl.sortType == 'deadline' && $ctrl.sortReverse == true;" class="glyphicon glyphicon-chevron-down"></span>
+             </a>
+        </th>
+        <th>
+            <a href="#" ng-click="$ctrl.sortType = 'responsible'; $ctrl.sortReverse = !$ctrl.sortReverse">
+                Responsible
+                <span ng-show="$ctrl.sortType == 'responsible' && $ctrl.sortReverse == false;" class="glyphicon glyphicon-chevron-up"></span>
+                <span ng-show="$ctrl.sortType == 'responsible' && $ctrl.sortReverse == true;" class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+        </th>
+        <th>
+            <a href="#" ng-click="$ctrl.sortType = 'hours'; $ctrl.sortReverse = !$ctrl.sortReverse">
+                Est. Hours
+                <span ng-show="$ctrl.sortType == 'hours' && $ctrl.sortReverse == false;" class="glyphicon glyphicon-chevron-up"></span>
+                <span ng-show="$ctrl.sortType == 'hours' && $ctrl.sortReverse == true;" class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+        </th>
+        <th class="text-right">Commands</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in $ctrl.todo.items | checkedItems: $ctrl.showCompleted | orderBy : $ctrl.sortType : $ctrl.sortReverse" highlight-missed>
+        <td>{{ item.action }}</td>
+        <td><input type="checkbox" ng-model="item.done"></td>
+        <td>{{ item.done ? 'Yes' : 'No' }}</td>.
+        <td>{{ item.deadline.format("l") }}</td>
+        <td>{{ item.responsible }}</td>
+        <td>{{ item.hours }}</td>
+        <td class="text-right">
+            <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#myModal"
+                    ng-click="$ctrl.setCurrentItem(item)">
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"
+                                          title="Edit"></span>
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-danger"
+                    ng-click="$ctrl.deleteItem($ctrl.todo.items, item)">
+									<span class="glyphicon glyphicon-trash" aria-hidden="true"
+                                          title="Delete"></span>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>

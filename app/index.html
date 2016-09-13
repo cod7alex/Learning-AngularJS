@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-controller="Todo as $ctrl">
+<head>
+	<meta charset="utf-8">
+	<title ng-bind-template="{{ ::$ctrl.todo.user }}'s TO DO List"></title>
+	<link href="vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="vendor/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+	<link href="css/main.css" rel="stylesheet">
+    <link href="css/ng-cloak.css" rel="stylesheet">
+</head>
+<body ng-cloak>
+	<div class="container">
+        <page-header></page-header>
+		<div class="panel">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+				Add item
+			</button>
+			<item-modal></item-modal>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> To Do List
+			</div>
+			<div class="panel-body">
+            <todo-list></todo-list>
+                <label>
+                    <input type="checkbox" ng-model="$ctrl.showCompleted">Show Completed</input>
+                </label>
+				<button class="btn btn-default btn-sm"
+						ng-show="$ctrl.isCompletedItemPresent($ctrl.todo.items)"
+						ng-click="$ctrl.removeCompletedItems()">Remove completed
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="vendor/angular/angular.min.js"></script>
+	<script src="vendor/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src="vendor/jquery/dist/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/modal.js"></script>
+	<script src="vendor/moment/min/moment.min.js"></script>
+
+	<script src="common/common.module.js"></script>
+	<script src="common/services/user.service.js"></script>
+	<script src="common/directives/page-header.directive.js"></script>
+
+	<script src="feature/feature.module.js"></script>
+	<script src="feature/todo.service.js"></script>
+	<script src="feature/todo.controller.js"></script>
+	<script src="feature/directives/todo-list.directive.js"></script>
+	<script src="feature/checked-items.filter.js"></script>
+	<script src="feature/directives/highlight-missed.directive.js"></script>
+	<script src="feature/directives/item-modal.directive.js"></script>
+
+	<script src="app.js"></script>
+</body>
+</html>
