@@ -4,11 +4,13 @@
     angular.module("feature")
         .controller("Todo", Todo);
 
-    function Todo(model, todoService) {
+    Todo.$inject = ["$scope", "todoService"];
+    function Todo($scope, todoService) {
         let $ctrl = this;
-        $ctrl.todo = model;
 
         Object.assign($ctrl, todoService);
+
+        $ctrl.todo = $scope.$parent.$headerCtrl.todo;
 
         $ctrl.showCompleted = true;
 
@@ -20,28 +22,38 @@
         };
 
         $ctrl.setCurrentItem = function (item) {
-            $ctrl.editItem = item;
-
-            $ctrl.newItem = {
+            let newItem = {
                 action: item.action,
                 done: item.done,
-                deadline: item.deadline,
+                deadline: item.deadline.format("l"),
                 responsible: item.responsible,
                 hours: item.hours
             };
+
+            $scope.$root.$broadcast("currentItemChanged", {
+                editItem: item,
+                newItem: newItem
+            })
         };
 
-        $ctrl.saveChanges = function () {
-            if($ctrl.editItem) {
-                todoService.editItem($ctrl.todo.items, $ctrl.editItem, $ctrl.newItem);
-                $ctrl.editItem = null;
-            } else {
-                todoService.addNewItem($ctrl.todo.items, $ctrl.newItem);
-                $ctrl.editItem = null;
-            }
-            $("#myModal").modal('hide');
+        $ctrl.changeSorting = function (fieldName) {
+            $ctrl.sortType = fieldName;
+            $ctrl.sortReverse = !$ctrl.sortReverse;
+        };
+
+        $ctrl.isSortedAscending = function (fieldName) {
+            return $ctrl.sortType == fieldName && $ctrl.sortReverse == false;
+        };
+
+        $ctrl.isSortedDescending = function (fieldName) {
+            return $ctrl.sortType == fieldName && $ctrl.sortReverse == true;
+        };
+        
+        $ctrl.makeAllDone = function () {
+            $ctrl.todo.items.forEach((item) => {
+                item.done = $ctrl.allDone ? true : false;
+            });
         }
     }
-    Todo.$inject = ["model", "todoService"];
 
 })();

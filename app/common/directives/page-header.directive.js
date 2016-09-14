@@ -6,7 +6,7 @@
 
     function pageHeader() {
         return {
-            templateUrl: "page-header.html"
+            templateUrl: "./common/directives/page-header.html"
         };
     }
 

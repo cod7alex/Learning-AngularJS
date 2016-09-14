@@ -17,7 +17,7 @@
                                     id="action"
                                     name="action"
                                     class="form-control"
-                                    ng-model="$ctrl.newItem.action"/>
+                                    ng-model="$formCtrl.newItem.action"/>
                         </div>
                         <label for="deadline">Deadline:</label>
                         <div class="input-group">
@@ -26,7 +26,7 @@
                                     name="deadline"
                                     class="form-control"
                                     placeholder="e.g. 9/25/2016"
-                                    ng-model="$ctrl.newItem.deadline"/>
+                                    ng-model="$formCtrl.newItem.deadline"/>
                         </div>
                         <label for="responsible">Responsible:</label>
                         <div class="input-group">
@@ -34,7 +34,7 @@
                                     id="responsible"
                                     name="responsible"
                                     class="form-control"
-                                    ng-model="$ctrl.newItem.responsible"/>
+                                    ng-model="$formCtrl.newItem.responsible"/>
                         </div>
                         <label for="hours">Est. Hours:</label>
                         <div class="input-group">
@@ -43,7 +43,7 @@
                                     name="hours"
                                     placeholder="e.g. 5"
                                     class="form-control"
-                                    ng-model="$ctrl.newItem.hours"/>
+                                    ng-model="$formCtrl.newItem.hours"/>
                         </div>
                     </div>
 
@@ -52,8 +52,8 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button
                         class="btn btn-primary"
-                        ng-click="$ctrl.saveChanges()"
-                        ng-disabled='!$ctrl.isItemValid($ctrl.newItem)'>
+                        ng-click="$formCtrl.saveChanges()"
+                        ng-disabled='!$formCtrl.isItemValid($formCtrl.newItem)'>
                     Save
                 </button>
             </div>

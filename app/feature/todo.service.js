@@ -35,7 +35,7 @@
                 items.push({
                     action: newItem.action,
                     done: false,
-                    deadline: newItem.deadline,
+                    deadline: moment(newItem.deadline, "MM-DD-YYYY"),
                     responsible: newItem.responsible,
                     hours: newItem.hours
                 });

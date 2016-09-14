@@ -19,3 +19,5 @@ Setup Environment
 1. Added modal window for adding/editing items
 
 2. Added validation for deadline and est. hours fields: deadline should be date and est.hours should be number
+
+3. Added checkbox to a header of column with checkboxes that makes all items done/not done
