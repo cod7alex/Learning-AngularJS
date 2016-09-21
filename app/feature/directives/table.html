@@ -41,7 +41,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="item in $todoCtrl.todo.items | checkedItems: $todoCtrl.showCompleted | orderBy : $todoCtrl.sortType : $todoCtrl.sortReverse" highlight-missed>
+    <tr ng-repeat="item in $todoCtrl.todo.items
+                    | checkedItems: $todoCtrl.showCompleted
+                    | orderBy : $todoCtrl.sortType : $todoCtrl.sortReverse
+                    | filter: $todoCtrl.filterItems
+                    | limitTo: $todoCtrl.pageSize: $todoCtrl.startItem" highlight-missed>
         <td>{{ item.action }}</td>
         <td><input type="checkbox" ng-model="item.done"></td>
         <td>{{ item.done ? 'Yes' : 'No' }}</td>.

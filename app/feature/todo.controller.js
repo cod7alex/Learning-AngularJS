@@ -4,18 +4,49 @@
     angular.module("feature")
         .controller("Todo", Todo);
 
-    Todo.$inject = ["$scope", "todoService"];
-    function Todo($scope, todoService) {
+    Todo.$inject = ["$scope", "todoService", "model"];
+    function Todo($scope, todoService, model) {
         let $ctrl = this;
 
         Object.assign($ctrl, todoService);
 
-        $ctrl.todo = $scope.$parent.$headerCtrl.todo;
+        $ctrl.todo = model;
 
         $ctrl.showCompleted = true;
 
         $ctrl.sortType = 'deadline';
         $ctrl.sortReverse = false;
+
+        $ctrl.filterItems = function(value) {
+            if(!$ctrl.filterText) {
+                return true;
+            }
+            let lowerCaseFilterText = $ctrl.filterText.toLowerCase();
+
+            return !!(value.action.toLowerCase().includes(lowerCaseFilterText) || value.responsible.toLowerCase().includes(lowerCaseFilterText));
+        };
+
+        $ctrl.startItem = 0;
+        $ctrl.pageSize = 5;
+        $ctrl.pageSizes = [{name: "5 items", count: 5}, {name: "10 items", count: 10}, {name: "15 items", count: 15}];
+
+        $ctrl.nextPage = function () {
+            if($ctrl.startItem + $ctrl.pageSize < $ctrl.todo.items.length) {
+                $ctrl.startItem += $ctrl.pageSize;
+            }
+        };
+
+        $ctrl.prevPage = function () {
+            if($ctrl.startItem - $ctrl.pageSize >= 0) {
+                $ctrl.startItem -= $ctrl.pageSize;
+            }
+        };
+
+        $ctrl.changePage = function(index) {
+            $ctrl.startItem = index * $ctrl.pageSize;
+        };
+
+        $ctrl.pages = [];
 
         $ctrl.removeCompletedItems = function () {
             $ctrl.todo.items = todoService.removeCompleted($ctrl.todo.items);

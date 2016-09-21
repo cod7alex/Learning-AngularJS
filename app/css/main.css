@@ -3,3 +3,8 @@
 	width: 60px;
 }
 
+.paging {
+	list-style: none;
+	display:inline-block;
+}
+

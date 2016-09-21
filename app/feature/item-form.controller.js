@@ -4,13 +4,13 @@
     angular.module("feature")
         .controller("Form", Form);
 
-    Form.$inject = ["$scope", "todoService"];
-    function Form($scope, todoService) {
+    Form.$inject = ["$scope", "todoService", "model"];
+    function Form($scope, todoService, model) {
         let $ctrl = this;
 
         Object.assign($ctrl, todoService);
 
-        $ctrl.todo = $scope.$parent.$headerCtrl.todo;
+        $ctrl.todo = model;
         
         $scope.$on("currentItemChanged", function (event, args) {
             $ctrl.editItem = args.editItem;
