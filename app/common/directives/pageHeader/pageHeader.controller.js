@@ -2,10 +2,10 @@
     "use strict";
 
     angular.module("common")
-        .controller("Header", Header);
+        .controller("PageHeader", PageHeader);
 
-    Header.$inject = ["model", "todoService"];
-    function Header(model, todoService) {
+    PageHeader.$inject = ["model", "todoService"];
+    function PageHeader(model, todoService) {
         let $ctrl = this;
 
         $ctrl.todo = model;

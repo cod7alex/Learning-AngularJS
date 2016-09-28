@@ -1,0 +1,15 @@
+<div class="pull-right">
+    <span>Page size </span>
+    <select name="pageSize"
+            ng-model="$ctrl.pageSize"
+            ng-change="$ctrl.changePageSize({size: $ctrl.pageSize})"
+            ng-options="item.count as item.name for item in $ctrl.pageSizes">
+    </select>
+    <button class="btn btn-default btn-sm" ng-click="$ctrl.prevPage()">Prev page</button>
+    <ul class="list-inline paging">
+        <li ng-repeat="page in $ctrl.pages">
+            <a href="#" ng-click="$ctrl.changePage({index: page.index})">{{ page.number }}</a>
+        </li>
+    </ul>
+    <button class="btn btn-default btn-sm" ng-click="$ctrl.nextPage()">Next page</button>
+</div>

@@ -1,0 +1,107 @@
+<div>
+
+    <div class="panel">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Add item
+        </button>
+        <task-form collection="$todoCtrl.items"></task-form>
+    </div>
+
+   <todo-filter on-filter-change="$todoCtrl.changeFilterText(text)"></todo-filter>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>
+                <a href="#" ng-click="$todoCtrl.changeSorting('action')">
+                    Description
+                    <span ng-show="$todoCtrl.isSortedAscending('action')" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="$todoCtrl.isSortedDescending('action')" class="glyphicon glyphicon-chevron-down"></span>
+                </a>
+            </th>
+            <th><input type="checkbox" ng-model="$todoCtrl.allDone" ng-change="$todoCtrl.makeAllDone()"></th>
+            <th>
+                <a href="#" ng-click="$todoCtrl.changeSorting('done')">
+                    Done
+                    <span ng-show="$todoCtrl.isSortedAscending('done')" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="$todoCtrl.isSortedDescending('done')" class="glyphicon glyphicon-chevron-down"></span>
+                </a>
+            </th>
+            <th>
+                <a href="#" ng-click="$todoCtrl.changeSorting('deadline')">
+                    Deadline
+                    <span ng-show="$todoCtrl.isSortedAscending('deadline')" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="$todoCtrl.isSortedDescending('deadline')" class="glyphicon glyphicon-chevron-down"></span>
+                 </a>
+            </th>
+            <th>
+                <a href="#" ng-click="$todoCtrl.changeSorting('responsible')">
+                    Responsible
+                    <span ng-show="$todoCtrl.isSortedAscending('responsible')" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="$todoCtrl.isSortedDescending('responsible')" class="glyphicon glyphicon-chevron-down"></span>
+                </a>
+            </th>
+            <th>
+                <a href="#" ng-click="$todoCtrl.changeSorting('hours')">
+                    Est. Hours
+                    <span ng-show="$todoCtrl.isSortedAscending('hours')" class="glyphicon glyphicon-chevron-up"></span>
+                    <span ng-show="$todoCtrl.isSortedDescending('hours')" class="glyphicon glyphicon-chevron-down"></span>
+                </a>
+            </th>
+            <th class="text-right">Commands</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in $todoCtrl.items
+                        | checkedItems: $todoCtrl.showCompleted
+                        | orderBy : $todoCtrl.sortType : $todoCtrl.sortReverse
+                        | filter: $todoCtrl.filterItems
+                        | limitTo: $todoCtrl.pageSize: $todoCtrl.startItem" highlight-missed>
+            <td>{{ item.action }}</td>
+            <td><input type="checkbox" ng-model="item.done"></td>
+            <td>{{ item.done ? 'Yes' : 'No' }}</td>.
+            <td>{{ item.deadline.format("l") }}</td>
+            <td>{{ item.responsible }}</td>
+            <td>{{ item.hours }}</td>
+            <td class="text-right">
+                <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-toggle="modal"
+                        data-target="#myModal"
+                        ng-click="$todoCtrl.setCurrentItem(item)">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"
+                                              title="Edit"></span>
+                </button>
+                <button
+                        type="button"
+                        class="btn btn-danger"
+                        ng-click="$todoCtrl.deleteItem($todoCtrl.items, item)">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"
+                                              title="Delete"></span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <label>
+        <input type="checkbox" ng-model="$todoCtrl.showCompleted">Show Completed</input>
+    </label>
+    <button class="btn btn-default btn-sm"
+            ng-show="$todoCtrl.isCompletedItemPresent($todoCtrl.items)"
+            ng-click="$todoCtrl.removeCompletedItems()">Remove completed
+    </button>
+
+    <paging collection="$todoCtrl.items"
+            page-size="$todoCtrl.pageSize"
+            page-sizes="$todoCtrl.pageSizes"
+            on-change-size="$todoCtrl.changePageSize(size)"
+            on-next-page="$todoCtrl.nextPage()"
+            on-prev-page="$todoCtrl.prevPage()"
+            on-change-page="$todoCtrl.changePage(index)"
+    >
+
+    </paging>
+</div>

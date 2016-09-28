@@ -2,15 +2,23 @@
     "use strict";
 
     angular.module("feature")
-        .controller("Todo", Todo);
+        .controller("TodoList", TodoList);
 
-    Todo.$inject = ["$scope", "todoService", "model"];
-    function Todo($scope, todoService, model) {
+    TodoList.$inject = ["$scope", "todoService", "todoListService"];
+    function TodoList($scope, todoService, todoListService) {
         let $ctrl = this;
 
         Object.assign($ctrl, todoService);
 
-        $ctrl.todo = model;
+        todoListService.getTodoItems()
+            .then(function (todos) {
+                console.log(todos);
+                $ctrl.items = todos;
+            })
+            .catch(function(reason) {
+                alert("Error has occured");
+                console.log(reason);
+            });
 
         $ctrl.showCompleted = true;
 
@@ -26,12 +34,20 @@
             return !!(value.action.toLowerCase().includes(lowerCaseFilterText) || value.responsible.toLowerCase().includes(lowerCaseFilterText));
         };
 
+        $ctrl.changeFilterText = function (text) {
+            $ctrl.filterText = text;
+        };
+
         $ctrl.startItem = 0;
         $ctrl.pageSize = 5;
         $ctrl.pageSizes = [{name: "5 items", count: 5}, {name: "10 items", count: 10}, {name: "15 items", count: 15}];
 
+        $ctrl.changePageSize = function (size) {
+            $ctrl.pageSize = size;
+        };
+
         $ctrl.nextPage = function () {
-            if($ctrl.startItem + $ctrl.pageSize < $ctrl.todo.items.length) {
+            if($ctrl.startItem + $ctrl.pageSize < $ctrl.items.length) {
                 $ctrl.startItem += $ctrl.pageSize;
             }
         };
@@ -46,10 +62,8 @@
             $ctrl.startItem = index * $ctrl.pageSize;
         };
 
-        $ctrl.pages = [];
-
         $ctrl.removeCompletedItems = function () {
-            $ctrl.todo.items = todoService.removeCompleted($ctrl.todo.items);
+            $ctrl.items = todoService.removeCompleted($ctrl.items);
         };
 
         $ctrl.setCurrentItem = function (item) {
@@ -79,12 +93,13 @@
         $ctrl.isSortedDescending = function (fieldName) {
             return $ctrl.sortType == fieldName && $ctrl.sortReverse == true;
         };
-        
+
         $ctrl.makeAllDone = function () {
-            $ctrl.todo.items.forEach((item) => {
+            $ctrl.items.forEach((item) => {
                 item.done = $ctrl.allDone ? true : false;
             });
         }
     }
+
 
 })();

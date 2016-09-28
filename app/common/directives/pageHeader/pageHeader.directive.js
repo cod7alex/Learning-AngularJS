@@ -6,7 +6,9 @@
 
     function pageHeader() {
         return {
-            templateUrl: "./common/directives/page-header.html"
+            templateUrl: "./common/directives/pageHeader/pageHeader.html",
+            controllerAs: "$headerCtrl",
+            controller: "PageHeader"
         };
     }
 
